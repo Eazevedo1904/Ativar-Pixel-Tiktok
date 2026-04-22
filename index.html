@@ -172,7 +172,7 @@
         
         .events-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 15px;
             margin-bottom: 20px;
         }
@@ -283,6 +283,12 @@
             background: #e5c158;
         }
         
+        @media (max-width: 900px) {
+            .events-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
         @media (max-width: 600px) {
             .container {
                 padding: 25px;
@@ -317,6 +323,22 @@
                 maxlength="20"
             >
             <div class="helper-text">TikTok Ads Manager > Assets > Event</div>
+            
+            <label for="userEmail" style="margin-top: 20px;">Email (Opcional):</label>
+            <input 
+                type="email" 
+                id="userEmail" 
+                placeholder="usuario@example.com"
+            >
+            
+            <label for="userPhone" style="margin-top: 15px;">Telefone (Opcional):</label>
+            <input 
+                type="tel" 
+                id="userPhone" 
+                placeholder="11999999999"
+            >
+            <div class="helper-text">Aumenta atribuição de conversões</div>
+            
             <button class="btn-activate" onclick="activatePixel()">
                 Ativar Pixel
             </button>
@@ -332,24 +354,36 @@
             </button>
             
             <div class="events-grid">
-                <button class="event-btn" onclick="firePageView()" title="PageView">
+                <button class="event-btn" onclick="firePageView()" title="Pageview">
                     👁️ Page View
                 </button>
                 
-                <button class="event-btn" onclick="fireViewContent()" title="ViewContent">
-                    🔍 View Content
+                <button class="event-btn" onclick="fireLandingPageView()" title="LandingPageView">
+                    🏠 Landing Page View
                 </button>
                 
-                <button class="event-btn" onclick="fireClickButton()" title="ClickButton">
-                    🖱️ Click Button
+                <button class="event-btn" onclick="fireSearch()" title="Search">
+                    🔍 Search
+                </button>
+                
+                <button class="event-btn" onclick="fireAddToCart()" title="AddToCart">
+                    🛒 Add to Cart
+                </button>
+                
+                <button class="event-btn" onclick="fireAddPaymentInfo()" title="AddPaymentInfo">
+                    💳 Add Payment Info
                 </button>
                 
                 <button class="event-btn" onclick="fireInitiateCheckout()" title="InitiateCheckout">
                     🛒 Initiate Checkout
                 </button>
                 
+                <button class="event-btn" onclick="firePlaceAnOrder()" title="PlaceAnOrder">
+                    📦 Place an Order
+                </button>
+                
                 <button class="event-btn" onclick="firePurchase()" title="Purchase">
-                    💳 Purchase
+                    ✅ Purchase
                 </button>
             </div>
             
@@ -364,6 +398,15 @@
         let pixelLoaded = false;
         let currentPixelId = null;
         let eventQueue = [];
+        let userEmail = null;
+        let userPhone = null;
+        
+        function getEventData(baseData) {
+            const data = { ...baseData };
+            if (userEmail) data.email = userEmail;
+            if (userPhone) data.phone_number = userPhone;
+            return data;
+        }
         
         function addLog(eventName, details = '') {
             const logContainer = document.getElementById('logContainer');
@@ -393,6 +436,8 @@
         
         function activatePixel() {
             const pixelId = document.getElementById('pixelId').value.trim();
+            const email = document.getElementById('userEmail').value.trim();
+            const phone = document.getElementById('userPhone').value.trim();
             
             if (!pixelId) {
                 showStatus('❌ Insira um Pixel ID válido', false);
@@ -405,6 +450,9 @@
             }
             
             currentPixelId = pixelId;
+            userEmail = email || null;
+            userPhone = phone || null;
+            
             loadTikTokPixel(pixelId);
         }
         
@@ -453,51 +501,87 @@
             addLog('PAGE_VIEW', 'Página carregada');
         }
         
-        function fireViewContent() {
+        function fireLandingPageView() {
             if (!pixelLoaded) return alertPixel();
-            ttq.track('ViewContent', {
+            ttq.track('LandingPageView', getEventData({
+                page_title: 'Landing Page Premium',
+                page_url: window.location.href
+            }));
+            addLog('LANDING_PAGE_VIEW', 'Usuário na página de destino');
+        }
+        
+        function fireSearch() {
+            if (!pixelLoaded) return alertPixel();
+            ttq.track('Search', getEventData({
+                search_query: 'Produto Premium',
+                search_results: 15
+            }));
+            addLog('SEARCH', 'Busca realizada: "Produto Premium"');
+        }
+        
+        function fireAddToCart() {
+            if (!pixelLoaded) return alertPixel();
+            ttq.track('AddToCart', getEventData({
                 content_id: ['PROD-' + Math.random().toString(36).substr(2, 9)],
                 content_name: 'Produto Premium',
                 content_type: 'product',
+                quantity: 1,
                 value: 199.90,
                 currency: 'BRL'
-            });
-            addLog('VIEW_CONTENT', 'R$ 199.90');
+            }));
+            addLog('ADD_TO_CART', 'R$ 199.90 adicionado ao carrinho');
         }
         
-        function fireClickButton() {
+        function fireAddPaymentInfo() {
             if (!pixelLoaded) return alertPixel();
-            ttq.track('ClickButton', {
-                button_id: 'cta-' + Date.now(),
-                button_text: 'Comprar Agora'
-            });
-            addLog('CLICK_BUTTON', 'CTA clicado');
+            ttq.track('AddPaymentInfo', getEventData({
+                content_id: ['PROD-' + Math.random().toString(36).substr(2, 9)],
+                payment_type: 'credit_card',
+                value: 199.90,
+                currency: 'BRL'
+            }));
+            addLog('ADD_PAYMENT_INFO', 'Informação de pagamento adicionada');
         }
         
         function fireInitiateCheckout() {
             if (!pixelLoaded) return alertPixel();
-            ttq.track('InitiateCheckout', {
+            ttq.track('InitiateCheckout', getEventData({
                 content_id: ['PROD-' + Math.random().toString(36).substr(2, 9)],
                 content_name: 'Produto Premium',
                 content_type: 'product',
                 quantity: 1,
                 value: 199.90,
                 currency: 'BRL'
-            });
-            addLog('INITIATE_CHECKOUT', 'R$ 199.90 - 1 item');
+            }));
+            addLog('INITIATE_CHECKOUT', 'Checkout iniciado - R$ 199.90');
+        }
+        
+        function firePlaceAnOrder() {
+            if (!pixelLoaded) return alertPixel();
+            ttq.track('PlaceAnOrder', getEventData({
+                content_id: ['PROD-' + Math.random().toString(36).substr(2, 9)],
+                content_name: 'Produto Premium',
+                content_type: 'product',
+                quantity: 1,
+                value: 199.90,
+                currency: 'BRL',
+                order_id: 'ORDER-' + Date.now()
+            }));
+            addLog('PLACE_AN_ORDER', 'Pedido realizado - R$ 199.90');
         }
         
         function firePurchase() {
             if (!pixelLoaded) return alertPixel();
-            ttq.track('Purchase', {
+            ttq.track('Purchase', getEventData({
                 content_id: ['PROD-' + Math.random().toString(36).substr(2, 9)],
                 content_name: 'Produto Premium',
                 content_type: 'product',
                 quantity: 1,
                 value: 199.90,
-                currency: 'BRL'
-            });
-            addLog('PURCHASE', 'Compra realizada - R$ 199.90');
+                currency: 'BRL',
+                order_id: 'ORDER-' + Date.now()
+            }));
+            addLog('PURCHASE', 'Compra confirmada - R$ 199.90');
         }
         
         function fireAllEvents() {
@@ -505,17 +589,20 @@
             
             const events = [
                 { fn: firePageView, delay: 0 },
-                { fn: fireViewContent, delay: 200 },
-                { fn: fireClickButton, delay: 400 },
-                { fn: fireInitiateCheckout, delay: 600 },
-                { fn: firePurchase, delay: 800 }
+                { fn: fireLandingPageView, delay: 150 },
+                { fn: fireSearch, delay: 300 },
+                { fn: fireAddToCart, delay: 450 },
+                { fn: fireAddPaymentInfo, delay: 600 },
+                { fn: fireInitiateCheckout, delay: 750 },
+                { fn: firePlaceAnOrder, delay: 900 },
+                { fn: firePurchase, delay: 1050 }
             ];
             
             events.forEach(event => {
                 setTimeout(event.fn, event.delay);
             });
             
-            addLog('ALL_EVENTS', 'Sequência de 5 eventos disparada');
+            addLog('ALL_EVENTS', 'Sequência completa de 8 eventos disparada');
         }
         
         function alertPixel() {
