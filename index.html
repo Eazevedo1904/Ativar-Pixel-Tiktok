@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste TikTok Pixel - Personalizado</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;2
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+        
+        .setup-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .setup-section.active {
+            background: #e8f5e9;
+            border: 2px solid #4CAF50;
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn-activate {
+            width: 100%;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: #667eea;
+            color: white;
+            margin-top: 15px;
+        }
+        
+        .btn-activate:hover:not(:disabled) {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-activate:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .status {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .status.success {
+            display: block;
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status.error {
+            display: block;
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .events-section {
+            display: none;
+        }
+        
+        .events-section.active {
+            display: block;
+        }
+        
+        .event-section {
+            margin-bottom: 20px;
+        }
+        
+        .event-title {
+            font-size: 18px;
+            color: #444;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .event-description {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        button.event-btn {
+            width: 100%;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-page {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .btn-page:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+        }
+        
+        .btn-initiate {
+            background: #2196F3;
+            color: white;
+        }
+        
+        .btn-initiate:hover {
+            background: #0b7dda;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+        }
+        
+        .btn-complete {
+            background: #FF6B6B;
+            color: white;
+        }
+        
+        .btn-complete:hover {
+            background: #ee5a52;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+        
+        .current-pixel {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #856404;
+        }
+        
+        .current-pixel strong {
+            font-family: 'Courier New', monospace;
+        }
+        
+        .log {
+            margin-top: 30px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .log-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .log-entry {
+            padding: 8px;
+            margin-bottom: 5px;
+            background: white;
+            border-radius: 5px;
+            font-size: 13px;
+            color: #555;
+            border-left: 3px solid #667eea;
+        }
+        
+        .log-entry.success {
+            border-left-color: #4CAF50;
+        }
+        
+        .timestamp {
+            color: #999;
+            font-size: 11px;
+        }
+        
+        .helper-text {
+            font-size: 12px;
+            color: #999;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Teste TikTok Pixel</h1>
+        <div class="subtitle">Configure e teste os eventos do seu pixel</div>
+        
+        <!-- Seção de Configuração -->
+        <div class="setup-section" id="setupSection">
+            <label for="pixelId">Insira o ID do seu TikTok Pixel:</label>
+            <input 
+                type="text" 
+                id="pixelId" 
+                placeholder="Ex: D7J7MABC77U8DEPHINI0"
+                maxlength="20"
+            >
+            <div class="helper-text">Você encontra o ID no TikTok Ads Manager > Assets > Event</div>
+            <button class="btn-activate" onclick="activatePixel()">
+                Ativar Pixel
+            </button>
+            <div class="status" id="statusMessage"></div>
+        </div>
+        
+        <!-- Seção de Eventos (oculta inicialmente) -->
+        <div class="events-section" id="eventsSection">
+            <div class="current-pixel" id="currentPixelInfo"></div>
+            
+            <div class="event-section">
+                <div class="event-title">1. PageView</div>
+                <div class="event-description">Visualização de página</div>
+                <button class="event-btn btn-page" onclick="firePageView()">
+                    Disparar PageView
+                </button>
+            </div>
+            
+            <div class="event-section">
+                <div class="event-title">2. InitiateCheckout</div>
+                <div class="event-description">Simula quando o usuário inicia o processo de checkout</div>
+                <button class="event-btn btn-initiate" onclick="fireInitiateCheckout()">
+                    Disparar InitiateCheckout
+                </button>
+            </div>
+            
+            <div class="event-section">
+                <div class="event-title">3. CompletePayment</div>
+                <div class="event-description">Simula quando uma compra é finalizada</div>
+                <button class="event-btn btn-complete" onclick="fireCompletePayment()">
+                    Disparar CompletePayment
+                </button>
+            </div>
+            
+            <div class="log">
+                <div class="log-title">📋 Log de Eventos:</div>
+                <div id="logContainer"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let pixelLoaded = false;
+        let currentPixelId = null;
+        
+        function addLog(eventName, details = '') {
+            const logContainer = document.getElementById('logContainer');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry success';
+            
+            const timestamp = new Date().toLocaleTimeString('pt-BR');
+            
+            entry.innerHTML = `
+                <strong>${eventName}</strong> ${details}
+                <div class="timestamp">${timestamp}</div>
+            `;
+            
+            logContainer.appendChild(entry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+        
+        function showStatus(message, isSuccess) {
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.textContent = message;
+            statusEl.className = 'status ' + (isSuccess ? 'success' : 'error');
+        }
+        
+        function activatePixel() {
+            const pixelId = document.getElementById('pixelId').value.trim();
+            
+            if (!pixelId) {
+                showStatus('Por favor, insira um ID de Pixel válido', false);
+                return;
+            }
+            
+            // Validação básica do formato
+            if (pixelId.length < 10) {
+                showStatus('O ID do Pixel parece estar incorreto. Verifique e tente novamente.', false);
+                return;
+            }
+            
+            currentPixelId = pixelId;
+            
+            // Carregar o script do TikTok Pixel
+            loadTikTokPixel(pixelId);
+        }
+        
+        function loadTikTokPixel(pixelId) {
+            // Criar e injetar o script do TikTok Pixel
+            const script = document.createElement('script');
+            script.innerHTML = `
+                !function (w, d, t) {
+                  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=i,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};var o=document.createElement("script");o.type="text/javascript",o.async=!0,o.src=i+"?sdkid="+e+"&lib="+t;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a)};
+                
+                  ttq.load('${pixelId}');
+                  ttq.page();
+                }(window, document, 'ttq');
+            `;
+            
+            document.head.appendChild(script);
+            
+            // Aguardar um momento para o pixel carregar
+            setTimeout(() => {
+                if (typeof ttq !== 'undefined') {
+                    pixelLoaded = true;
+                    showStatus('✅ Pixel ativado com sucesso!', true);
+                    
+                    // Mostrar seção de eventos
+                    document.getElementById('setupSection').classList.add('active');
+                    document.getElementById('eventsSection').classList.add('active');
+                    
+                    // Mostrar pixel atual
+                    document.getElementById('currentPixelInfo').innerHTML = 
+                        `🎯 Pixel ativo: <strong>${pixelId}</strong>`;
+                    
+                    // Log inicial
+                    addLog('Pixel Carregado', `ID: ${pixelId}`);
+                    addLog('PageView', 'disparado automaticamente');
+                    
+                    console.log('✅ TikTok Pixel carregado:', pixelId);
+                } else {
+                    showStatus('❌ Erro ao carregar o pixel. Verifique o ID e tente novamente.', false);
+                }
+            }, 1000);
+        }
+        
+        function firePageView() {
+            if (!pixelLoaded) {
+                alert('Por favor, ative o pixel primeiro!');
+                return;
+            }
+            
+            ttq.page();
+            addLog('PageView', 'disparado manualmente');
+            console.log('✅ TikTok Pixel: PageView disparado');
+        }
+        
+        function fireInitiateCheckout() {
+            if (!pixelLoaded) {
+                alert('Por favor, ative o pixel primeiro!');
+                return;
+            }
+            
+            ttq.track('InitiateCheckout', {
+                content_id: 'PROD-123',
+                content_name: 'Produto Teste',
+                content_type: 'product',
+                quantity: 1,
+                price: 99.90,
+                value: 99.90,
+                currency: 'BRL'
+            });
+            addLog('InitiateCheckout', 'com dados de produto (R$ 99,90)');
+            console.log('✅ TikTok Pixel: InitiateCheckout disparado');
+        }
+        
+        function fireCompletePayment() {
+            if (!pixelLoaded) {
+                alert('Por favor, ative o pixel primeiro!');
+                return;
+            }
+            
+            ttq.track('CompletePayment', {
+                content_id: 'PROD-123',
+                content_name: 'Produto Teste',
+                content_type: 'product',
+                quantity: 1,
+                price: 99.90,
+                value: 99.90,
+                currency: 'BRL'
+            });
+            addLog('CompletePayment', 'com dados de compra (R$ 99,90)');
+            console.log('✅ TikTok Pixel: CompletePayment disparado');
+        }
+        
+        // Permitir ativar com Enter
+        document.getElementById('pixelId').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                activatePixel();
+            }
+        });
+    </script>
+</body>
+</html>
