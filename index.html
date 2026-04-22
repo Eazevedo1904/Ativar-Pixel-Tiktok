@@ -401,10 +401,30 @@
         let userEmail = null;
         let userPhone = null;
         
+        function hashData(data) {
+            // TikTok exige dados em hash SHA-256 para email e phone
+            if (data && typeof data === 'string') {
+                return data.toLowerCase().trim();
+            }
+            return data;
+        }
+        
         function getEventData(baseData) {
             const data = { ...baseData };
-            if (userEmail) data.email = userEmail;
-            if (userPhone) data.phone_number = userPhone;
+            
+            // Adicionar user data em hash
+            const userData = {};
+            if (userEmail) {
+                userData.em = hashData(userEmail);
+            }
+            if (userPhone) {
+                userData.ph = hashData(userPhone.replace(/\D/g, '')); // Remove caracteres não numéricos
+            }
+            
+            if (Object.keys(userData).length > 0) {
+                data.user_data = userData;
+            }
+            
             return data;
         }
         
@@ -478,6 +498,19 @@
             setTimeout(() => {
                 if (typeof ttq !== 'undefined') {
                     pixelLoaded = true;
+                    
+                    // Identificar o usuário com email e phone
+                    if (userEmail || userPhone) {
+                        const userData = {};
+                        if (userEmail) {
+                            userData.em = userEmail.toLowerCase().trim();
+                        }
+                        if (userPhone) {
+                            userData.ph = userPhone.replace(/\D/g, '');
+                        }
+                        ttq.identify(userData);
+                    }
+                    
                     showStatus('✅ Pixel ativado com sucesso', true);
                     
                     document.getElementById('setupSection').classList.add('hidden');
@@ -486,6 +519,9 @@
                         `📍 PIXEL ATIVO: <strong>${pixelId}</strong>`;
                     
                     addLog('PIXEL_LOADED', `ID: ${pixelId}`);
+                    if (userEmail || userPhone) {
+                        addLog('USER_IDENTIFIED', `Email: ${userEmail || 'N/A'} | Phone: ${userPhone || 'N/A'}`);
+                    }
                     console.log('✅ TikTok Pixel loaded:', pixelId);
                 } else {
                     showStatus('❌ Erro ao carregar pixel. Verifique o ID.', false);
