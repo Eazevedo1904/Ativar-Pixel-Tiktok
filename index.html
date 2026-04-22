@@ -504,6 +504,7 @@
         function fireLandingPageView() {
             if (!pixelLoaded) return alertPixel();
             ttq.track('LandingPageView', getEventData({
+                content_id: 'LANDING-PAGE-' + Math.random().toString(36).substr(2, 9),
                 page_title: 'Landing Page Premium',
                 page_url: window.location.href
             }));
@@ -513,6 +514,7 @@
         function fireSearch() {
             if (!pixelLoaded) return alertPixel();
             ttq.track('Search', getEventData({
+                content_id: 'SEARCH-' + Math.random().toString(36).substr(2, 9),
                 search_query: 'Produto Premium',
                 search_results: 15
             }));
@@ -521,8 +523,9 @@
         
         function fireAddToCart() {
             if (!pixelLoaded) return alertPixel();
+            const productId = 'PROD-' + Math.random().toString(36).substr(2, 9);
             ttq.track('AddToCart', getEventData({
-                content_id: ['PROD-' + Math.random().toString(36).substr(2, 9)],
+                content_id: productId,
                 content_name: 'Produto Premium',
                 content_type: 'product',
                 quantity: 1,
@@ -534,8 +537,9 @@
         
         function fireAddPaymentInfo() {
             if (!pixelLoaded) return alertPixel();
+            const productId = 'PROD-' + Math.random().toString(36).substr(2, 9);
             ttq.track('AddPaymentInfo', getEventData({
-                content_id: ['PROD-' + Math.random().toString(36).substr(2, 9)],
+                content_id: productId,
                 payment_type: 'credit_card',
                 value: 199.90,
                 currency: 'BRL'
@@ -545,8 +549,9 @@
         
         function fireInitiateCheckout() {
             if (!pixelLoaded) return alertPixel();
+            const productId = 'PROD-' + Math.random().toString(36).substr(2, 9);
             ttq.track('InitiateCheckout', getEventData({
-                content_id: ['PROD-' + Math.random().toString(36).substr(2, 9)],
+                content_id: productId,
                 content_name: 'Produto Premium',
                 content_type: 'product',
                 quantity: 1,
@@ -558,8 +563,9 @@
         
         function firePlaceAnOrder() {
             if (!pixelLoaded) return alertPixel();
+            const productId = 'PROD-' + Math.random().toString(36).substr(2, 9);
             ttq.track('PlaceAnOrder', getEventData({
-                content_id: ['PROD-' + Math.random().toString(36).substr(2, 9)],
+                content_id: productId,
                 content_name: 'Produto Premium',
                 content_type: 'product',
                 quantity: 1,
@@ -572,8 +578,9 @@
         
         function firePurchase() {
             if (!pixelLoaded) return alertPixel();
+            const productId = 'PROD-' + Math.random().toString(36).substr(2, 9);
             ttq.track('Purchase', getEventData({
-                content_id: ['PROD-' + Math.random().toString(36).substr(2, 9)],
+                content_id: productId,
                 content_name: 'Produto Premium',
                 content_type: 'product',
                 quantity: 1,
