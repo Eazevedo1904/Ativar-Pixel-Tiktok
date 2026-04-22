@@ -3,128 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teste TikTok Pixel - Personalizado</title>
+    <title>TikTok Pixel Tracker - Black Edition</title>
     
     <style>
         * {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;2
+            box-sizing: border-box;
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #0a0e27;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            color: #e0e0e0;
         }
         
         .container {
-            background: white;
-            border-radius: 20px;
+            background: #1a1f3a;
+            border: 1px solid #2a2f4a;
+            border-radius: 12px;
             padding: 40px;
-            max-width: 600px;
+            max-width: 700px;
             width: 100%;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
         }
         
         h1 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 28px;
+            color: #fff;
+            margin-bottom: 5px;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -1px;
         }
         
         .subtitle {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 30px;
+            color: #888;
+            font-size: 13px;
+            margin-bottom: 35px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
         
         .setup-section {
-            background: #f8f9fa;
-            padding: 25px;
+            background: #151a2f;
+            padding: 30px;
             border-radius: 10px;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
+            border: 1px solid #252a3f;
         }
         
-        .setup-section.active {
-            background: #e8f5e9;
-            border: 2px solid #4CAF50;
+        .setup-section.hidden {
+            display: none;
         }
         
         label {
             display: block;
             font-weight: 600;
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 14px;
+            color: #e0e0e0;
+            margin-bottom: 12px;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
         input[type="text"] {
             width: 100%;
-            padding: 12px 15px;
-            font-size: 15px;
-            border: 2px solid #ddd;
+            padding: 14px 18px;
+            font-size: 14px;
+            border: 1px solid #2a2f4a;
             border-radius: 8px;
-            font-family: 'Courier New', monospace;
-            transition: border-color 0.3s;
+            font-family: 'Monaco', 'Menlo', monospace;
+            background: #0a0e27;
+            color: #fff;
+            transition: all 0.3s;
         }
         
         input[type="text"]:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #d4af37;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);
+        }
+        
+        .helper-text {
+            font-size: 11px;
+            color: #666;
+            margin-top: 8px;
+            font-style: italic;
         }
         
         .btn-activate {
             width: 100%;
-            padding: 15px 30px;
-            font-size: 16px;
-            font-weight: 600;
-            border: none;
-            border-radius: 10px;
+            padding: 16px 30px;
+            font-size: 13px;
+            font-weight: 700;
+            border: 1px solid #d4af37;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            background: #667eea;
-            color: white;
-            margin-top: 15px;
+            letter-spacing: 1.5px;
+            background: transparent;
+            color: #d4af37;
+            margin-top: 20px;
         }
         
         .btn-activate:hover:not(:disabled) {
-            background: #5568d3;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            background: #d4af37;
+            color: #0a0e27;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
         }
         
         .btn-activate:disabled {
-            background: #ccc;
+            border-color: #444;
+            color: #444;
             cursor: not-allowed;
         }
         
         .status {
-            margin-top: 15px;
-            padding: 12px;
+            margin-top: 18px;
+            padding: 14px;
             border-radius: 8px;
-            font-size: 14px;
+            font-size: 13px;
             display: none;
+            border-left: 3px solid;
         }
         
         .status.success {
             display: block;
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+            background: rgba(52, 211, 153, 0.1);
+            color: #34d399;
+            border-left-color: #34d399;
         }
         
         .status.error {
             display: block;
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border-left-color: #ef4444;
         }
         
         .events-section {
@@ -135,175 +155,206 @@
             display: block;
         }
         
-        .event-section {
-            margin-bottom: 20px;
-        }
-        
-        .event-title {
-            font-size: 18px;
-            color: #444;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-        
-        .event-description {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-        
-        button.event-btn {
-            width: 100%;
-            padding: 15px 30px;
-            font-size: 16px;
-            font-weight: 600;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .btn-page {
-            background: #4CAF50;
-            color: white;
-        }
-        
-        .btn-page:hover {
-            background: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
-        }
-        
-        .btn-initiate {
-            background: #2196F3;
-            color: white;
-        }
-        
-        .btn-initiate:hover {
-            background: #0b7dda;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
-        }
-        
-        .btn-complete {
-            background: #FF6B6B;
-            color: white;
-        }
-        
-        .btn-complete:hover {
-            background: #ee5a52;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
-        }
-        
         .current-pixel {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            padding: 12px;
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid #d4af37;
+            padding: 14px 18px;
             border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            color: #856404;
+            margin-bottom: 25px;
+            font-size: 13px;
+            color: #d4af37;
         }
         
         .current-pixel strong {
-            font-family: 'Courier New', monospace;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-weight: 700;
+        }
+        
+        .events-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .event-btn {
+            padding: 18px 16px;
+            font-size: 12px;
+            font-weight: 700;
+            border: 1px solid #2a2f4a;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: transparent;
+            color: #e0e0e0;
+        }
+        
+        .event-btn:hover {
+            border-color: #d4af37;
+            color: #d4af37;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .event-btn.active {
+            background: #d4af37;
+            color: #0a0e27;
+            border-color: #d4af37;
+        }
+        
+        .btn-all {
+            width: 100%;
+            padding: 16px 30px;
+            font-size: 13px;
+            font-weight: 700;
+            border: 1px solid #d4af37;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            background: #d4af37;
+            color: #0a0e27;
+            margin-bottom: 25px;
+        }
+        
+        .btn-all:hover {
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            transform: translateY(-2px);
         }
         
         .log {
-            margin-top: 30px;
-            background: #f8f9fa;
+            background: #0a0e27;
+            border: 1px solid #2a2f4a;
             border-radius: 10px;
             padding: 20px;
-            max-height: 200px;
+            max-height: 250px;
             overflow-y: auto;
         }
         
         .log-title {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 10px;
+            font-weight: 700;
+            color: #d4af37;
+            margin-bottom: 12px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
         .log-entry {
-            padding: 8px;
-            margin-bottom: 5px;
-            background: white;
-            border-radius: 5px;
-            font-size: 13px;
-            color: #555;
-            border-left: 3px solid #667eea;
+            padding: 10px;
+            margin-bottom: 8px;
+            background: #151a2f;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #aaa;
+            border-left: 3px solid #d4af37;
+            font-family: 'Monaco', 'Menlo', monospace;
         }
         
-        .log-entry.success {
-            border-left-color: #4CAF50;
+        .log-entry strong {
+            color: #d4af37;
         }
         
         .timestamp {
-            color: #999;
-            font-size: 11px;
+            color: #555;
+            font-size: 10px;
+            margin-top: 4px;
         }
         
-        .helper-text {
-            font-size: 12px;
-            color: #999;
-            margin-top: 8px;
+        /* Scrollbar customizada */
+        .log::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .log::-webkit-scrollbar-track {
+            background: #151a2f;
+            border-radius: 10px;
+        }
+        
+        .log::-webkit-scrollbar-thumb {
+            background: #d4af37;
+            border-radius: 10px;
+        }
+        
+        .log::-webkit-scrollbar-thumb:hover {
+            background: #e5c158;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .event-btn {
+                padding: 16px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🎯 Teste TikTok Pixel</h1>
-        <div class="subtitle">Configure e teste os eventos do seu pixel</div>
+        <h1>🎯 PIXEL TRACKER</h1>
+        <div class="subtitle">TikTok Ads Manager</div>
         
         <!-- Seção de Configuração -->
         <div class="setup-section" id="setupSection">
-            <label for="pixelId">Insira o ID do seu TikTok Pixel:</label>
+            <label for="pixelId">Pixel ID:</label>
             <input 
                 type="text" 
                 id="pixelId" 
                 placeholder="Ex: D7J7MABC77U8DEPHINI0"
                 maxlength="20"
             >
-            <div class="helper-text">Você encontra o ID no TikTok Ads Manager > Assets > Event</div>
+            <div class="helper-text">TikTok Ads Manager > Assets > Event</div>
             <button class="btn-activate" onclick="activatePixel()">
                 Ativar Pixel
             </button>
             <div class="status" id="statusMessage"></div>
         </div>
         
-        <!-- Seção de Eventos (oculta inicialmente) -->
+        <!-- Seção de Eventos -->
         <div class="events-section" id="eventsSection">
             <div class="current-pixel" id="currentPixelInfo"></div>
             
-            <div class="event-section">
-                <div class="event-title">1. PageView</div>
-                <div class="event-description">Visualização de página</div>
-                <button class="event-btn btn-page" onclick="firePageView()">
-                    Disparar PageView
-                </button>
-            </div>
+            <button class="btn-all" onclick="fireAllEvents()">
+                ⚡ Disparar Todos os Eventos
+            </button>
             
-            <div class="event-section">
-                <div class="event-title">2. InitiateCheckout</div>
-                <div class="event-description">Simula quando o usuário inicia o processo de checkout</div>
-                <button class="event-btn btn-initiate" onclick="fireInitiateCheckout()">
-                    Disparar InitiateCheckout
+            <div class="events-grid">
+                <button class="event-btn" onclick="firePageView()" title="PageView">
+                    👁️ Page View
                 </button>
-            </div>
-            
-            <div class="event-section">
-                <div class="event-title">3. CompletePayment</div>
-                <div class="event-description">Simula quando uma compra é finalizada</div>
-                <button class="event-btn btn-complete" onclick="fireCompletePayment()">
-                    Disparar CompletePayment
+                
+                <button class="event-btn" onclick="fireViewContent()" title="ViewContent">
+                    🔍 View Content
+                </button>
+                
+                <button class="event-btn" onclick="fireClickButton()" title="ClickButton">
+                    🖱️ Click Button
+                </button>
+                
+                <button class="event-btn" onclick="fireInitiateCheckout()" title="InitiateCheckout">
+                    🛒 Initiate Checkout
+                </button>
+                
+                <button class="event-btn" onclick="firePurchase()" title="Purchase">
+                    💳 Purchase
                 </button>
             </div>
             
             <div class="log">
-                <div class="log-title">📋 Log de Eventos:</div>
+                <div class="log-title">📋 Event Log</div>
                 <div id="logContainer"></div>
             </div>
         </div>
@@ -312,11 +363,12 @@
     <script>
         let pixelLoaded = false;
         let currentPixelId = null;
+        let eventQueue = [];
         
         function addLog(eventName, details = '') {
             const logContainer = document.getElementById('logContainer');
             const entry = document.createElement('div');
-            entry.className = 'log-entry success';
+            entry.className = 'log-entry';
             
             const timestamp = new Date().toLocaleTimeString('pt-BR');
             
@@ -325,8 +377,12 @@
                 <div class="timestamp">${timestamp}</div>
             `;
             
-            logContainer.appendChild(entry);
-            logContainer.scrollTop = logContainer.scrollHeight;
+            logContainer.insertBefore(entry, logContainer.firstChild);
+            
+            // Limitar a 50 entradas no log
+            while (logContainer.children.length > 50) {
+                logContainer.removeChild(logContainer.lastChild);
+            }
         }
         
         function showStatus(message, isSuccess) {
@@ -339,29 +395,31 @@
             const pixelId = document.getElementById('pixelId').value.trim();
             
             if (!pixelId) {
-                showStatus('Por favor, insira um ID de Pixel válido', false);
+                showStatus('❌ Insira um Pixel ID válido', false);
                 return;
             }
             
-            // Validação básica do formato
             if (pixelId.length < 10) {
-                showStatus('O ID do Pixel parece estar incorreto. Verifique e tente novamente.', false);
+                showStatus('❌ ID do Pixel inválido. Verifique.', false);
                 return;
             }
             
             currentPixelId = pixelId;
-            
-            // Carregar o script do TikTok Pixel
             loadTikTokPixel(pixelId);
         }
         
         function loadTikTokPixel(pixelId) {
-            // Criar e injetar o script do TikTok Pixel
+            // Script otimizado do TikTok Pixel
             const script = document.createElement('script');
             script.innerHTML = `
                 !function (w, d, t) {
-                  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=i,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};var o=document.createElement("script");o.type="text/javascript",o.async=!0,o.src=i+"?sdkid="+e+"&lib="+t;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a)};
-                
+                  w.TiktokAnalyticsObject=t;
+                  var ttq=w[t]=w[t]||[];
+                  ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"];
+                  ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};
+                  for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);
+                  ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e};
+                  ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{};ttq._i[e]=[];ttq._i[e]._u=i;ttq._t=ttq._t||{};ttq._t[e]=+new Date;ttq._o=ttq._o||{};ttq._o[e]=n||{};var o=document.createElement("script");o.type="text/javascript";o.async=!0;o.src=i+"?sdkid="+e+"&lib="+t;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a)};
                   ttq.load('${pixelId}');
                   ttq.page();
                 }(window, document, 'ttq');
@@ -369,81 +427,102 @@
             
             document.head.appendChild(script);
             
-            // Aguardar um momento para o pixel carregar
             setTimeout(() => {
                 if (typeof ttq !== 'undefined') {
                     pixelLoaded = true;
-                    showStatus('✅ Pixel ativado com sucesso!', true);
+                    showStatus('✅ Pixel ativado com sucesso', true);
                     
-                    // Mostrar seção de eventos
-                    document.getElementById('setupSection').classList.add('active');
+                    document.getElementById('setupSection').classList.add('hidden');
                     document.getElementById('eventsSection').classList.add('active');
-                    
-                    // Mostrar pixel atual
                     document.getElementById('currentPixelInfo').innerHTML = 
-                        `🎯 Pixel ativo: <strong>${pixelId}</strong>`;
+                        `📍 PIXEL ATIVO: <strong>${pixelId}</strong>`;
                     
-                    // Log inicial
-                    addLog('Pixel Carregado', `ID: ${pixelId}`);
-                    addLog('PageView', 'disparado automaticamente');
-                    
-                    console.log('✅ TikTok Pixel carregado:', pixelId);
+                    addLog('PIXEL_LOADED', `ID: ${pixelId}`);
+                    console.log('✅ TikTok Pixel loaded:', pixelId);
                 } else {
-                    showStatus('❌ Erro ao carregar o pixel. Verifique o ID e tente novamente.', false);
+                    showStatus('❌ Erro ao carregar pixel. Verifique o ID.', false);
                 }
-            }, 1000);
+            }, 800);
         }
         
+        // Eventos otimizados com dados realistas
+        
         function firePageView() {
-            if (!pixelLoaded) {
-                alert('Por favor, ative o pixel primeiro!');
-                return;
-            }
-            
+            if (!pixelLoaded) return alertPixel();
             ttq.page();
-            addLog('PageView', 'disparado manualmente');
-            console.log('✅ TikTok Pixel: PageView disparado');
+            addLog('PAGE_VIEW', 'Página carregada');
+        }
+        
+        function fireViewContent() {
+            if (!pixelLoaded) return alertPixel();
+            ttq.track('ViewContent', {
+                content_id: ['PROD-' + Math.random().toString(36).substr(2, 9)],
+                content_name: 'Produto Premium',
+                content_type: 'product',
+                value: 199.90,
+                currency: 'BRL'
+            });
+            addLog('VIEW_CONTENT', 'R$ 199.90');
+        }
+        
+        function fireClickButton() {
+            if (!pixelLoaded) return alertPixel();
+            ttq.track('ClickButton', {
+                button_id: 'cta-' + Date.now(),
+                button_text: 'Comprar Agora'
+            });
+            addLog('CLICK_BUTTON', 'CTA clicado');
         }
         
         function fireInitiateCheckout() {
-            if (!pixelLoaded) {
-                alert('Por favor, ative o pixel primeiro!');
-                return;
-            }
-            
+            if (!pixelLoaded) return alertPixel();
             ttq.track('InitiateCheckout', {
-                content_id: 'PROD-123',
-                content_name: 'Produto Teste',
+                content_id: ['PROD-' + Math.random().toString(36).substr(2, 9)],
+                content_name: 'Produto Premium',
                 content_type: 'product',
                 quantity: 1,
-                price: 99.90,
-                value: 99.90,
+                value: 199.90,
                 currency: 'BRL'
             });
-            addLog('InitiateCheckout', 'com dados de produto (R$ 99,90)');
-            console.log('✅ TikTok Pixel: InitiateCheckout disparado');
+            addLog('INITIATE_CHECKOUT', 'R$ 199.90 - 1 item');
         }
         
-        function fireCompletePayment() {
-            if (!pixelLoaded) {
-                alert('Por favor, ative o pixel primeiro!');
-                return;
-            }
+        function firePurchase() {
+            if (!pixelLoaded) return alertPixel();
+            ttq.track('Purchase', {
+                content_id: ['PROD-' + Math.random().toString(36).substr(2, 9)],
+                content_name: 'Produto Premium',
+                content_type: 'product',
+                quantity: 1,
+                value: 199.90,
+                currency: 'BRL'
+            });
+            addLog('PURCHASE', 'Compra realizada - R$ 199.90');
+        }
+        
+        function fireAllEvents() {
+            if (!pixelLoaded) return alertPixel();
             
-            ttq.track('CompletePayment', {
-                content_id: 'PROD-123',
-                content_name: 'Produto Teste',
-                content_type: 'product',
-                quantity: 1,
-                price: 99.90,
-                value: 99.90,
-                currency: 'BRL'
+            const events = [
+                { fn: firePageView, delay: 0 },
+                { fn: fireViewContent, delay: 200 },
+                { fn: fireClickButton, delay: 400 },
+                { fn: fireInitiateCheckout, delay: 600 },
+                { fn: firePurchase, delay: 800 }
+            ];
+            
+            events.forEach(event => {
+                setTimeout(event.fn, event.delay);
             });
-            addLog('CompletePayment', 'com dados de compra (R$ 99,90)');
-            console.log('✅ TikTok Pixel: CompletePayment disparado');
+            
+            addLog('ALL_EVENTS', 'Sequência de 5 eventos disparada');
         }
         
-        // Permitir ativar com Enter
+        function alertPixel() {
+            showStatus('❌ Ative o pixel primeiro', false);
+        }
+        
+        // Enter key para ativar
         document.getElementById('pixelId').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 activatePixel();
